@@ -1,232 +1,32 @@
-<!doctype html>
-<html lang="zh-CN">
+extends includes/layout.pug
 
+block content
+  #post
+    if top_img === false
+      include includes/header/post-info.pug
 
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <meta name="theme-color" content= #93b658 >
-    <title>“出来了！” | Hexo </title>
-
-    
-
-    
-    <meta name="description" content=""/>
-
-    
-
-    
-
-    
-
-    
+    article#article-container.post-content!=page.content
+    include includes/post/post-copyright.pug
+    .tag_share
+      if (theme.post_meta.post.tags)
+        .post-meta__tag-list
+          each item, index in page.tags.data
+            a(href=url_for(item.path)).post-meta__tags #[=item.name]
+      include includes/third-party/share/index.pug
         
-<link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
-
-    
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    
-<link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
-
-    
-<link rel="stylesheet" href="/lib/animate.css/animate.min.css">
-
-    
-<link rel="stylesheet" href="/css/post/atom-one-light.css">
-
-    
-<link rel="stylesheet" href="/css/pteris.css">
-
-
-
-    
-        
-<link rel="stylesheet" href="/css/post.css">
-
-    
-
-    
-        
-<link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
-
-    
-
-    
-<meta name="generator" content="Hexo 7.3.0"></head>
-
-<body>
-
-<header>
-    
-        <div class="header-fixed">
-    <nav class="white lime-text lighten-1 " role="navigation">
-        <div class="nav-wrapper container">
-            <div id="logo-container">
-                <a href="/">
-                    
-                    <span class="brand-logo">Hexo</span>
-                </a>
-            </div>
-
-            <ul class="right hide-on-med-and-down">
-                
-            </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse">
-                <i class="fa fa-bars green-text"></i></a>
-        </div>
-    </nav>
-</div>
-
-<ul id="nav-mobile" class="side-nav">
-    
-</ul>
-
-
-
-    
-</header>
-
-<main>
-    
-
-    <div id="post">
-        <div class="container">
-            <div id="post-header" class="center">
-                <h1 class="center">“出来了！”</h1>
-                <span class="post-date center">
-                    <i class="fa fa-calendar"></i>
-                    <time datetime="2024-07-09T03:58:59.000Z">
-                        2024-07-09
-                    </time>
-                </span>
-
-                
-
-                
-                    <div class="post-gallery">
-                        <div id="lightgallery">
-                            
-                        </div>
-                    </div>
-                
-            </div>
-
-            <article>
-                <div class="content">
-                    
-    
-
-                </div>
-            </article>
-
-
-            <div class="post-tags center">
-                
-            </div>
-
-
-            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
-                <span id="share-to">Share to</span>
-            </div>
-
-            <div class="post-footer">
-                
-                
-                    <a class="right" href="/2024/07/09/hello-world/" rel="next" title="Hello World">
-                        Hello World<i
-                                class="fa fa-arrow-circle-right fa-3x "></i>
-                    </a>
-                
-            </div>
-        </div>
-    </div>
-
-
-</main>
-
-<footer>
-    
-        <footer class="page-footer">
-    <div class="footer-copyright">
-        <div class="container">
-            <div>© 2017 Copyright John Doe
-                <span class="right">
-                powered by
-                <a target="_blank" rel="noopener" href="http://hexo.io">hexo</a>.
-                theme:
-                <a target="_blank" rel="noopener" href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
-                </span>
-            </div>
-        </div>
-    </div>
-
-    
-</footer>
-
-    
-</footer>
-
-
-    
-<script src="/lib/jquery/dist/jquery.min.js"></script>
-
-
-<script src="/lib/materialize/dist/js/materialize.min.js"></script>
-
-
-<script src="/lib/headroom.js/dist/headroom.min.js"></script>
-
-
-<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
-
-
-
-
-    
-<script src="/lib/social-share.js/dist/js/share.min.js"></script>
-
-
-
-
-
-<script src="/js/pteris.js"></script>
-
-
-
-    
-<script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
-
-
-
-
-
-
-
-
-
-</body>
-</html>
+    if theme.reward.enable && theme.reward.QR_code
+      !=partial('includes/post/reward', {}, {cache: true})
+
+    //- ad
+    if theme.ad && theme.ad.post
+      .ads-wrap!=theme.ad.post
+
+    if theme.post_pagination
+      include includes/pagination.pug
+    if theme.related_post && theme.related_post.enable
+      != related_posts(page,site.posts)
+
+    if page.comments !== false && theme.comments && theme.comments.use
+      - var commentsJsLoad = true
+      !=partial('includes/third-party/comments/index', {}, {cache: true})
+      
